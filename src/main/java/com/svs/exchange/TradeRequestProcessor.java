@@ -12,16 +12,18 @@ public class TradeRequestProcessor {
     private final TradeRequestQueue requestQueue;
     private final ExecutorService executorService;
     private final TradingService tradingService;
+    private final int maxThreads=8;
+    private final int poolSize=4;
 
     public TradeRequestProcessor(TradeRequestQueue requestQueue, TradingService tradingService) {
         this.requestQueue = requestQueue;
-        this.executorService = Executors.newFixedThreadPool(4);
+        this.executorService = Executors.newFixedThreadPool(poolSize);
         this.tradingService = tradingService;
 
     }
 
     public void startProcessing() {
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < maxThreads; i++) {
             executorService.submit(() -> {
                 try {
                     while (!Thread.currentThread().isInterrupted()) {

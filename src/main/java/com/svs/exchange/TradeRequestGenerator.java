@@ -13,6 +13,7 @@ public class TradeRequestGenerator implements Runnable {
     private final TradeRequestQueue queue;
     private final Exchange exchange;
     private static final Logger logger = LoggerFactory.getLogger(TradeRequestGenerator.class);
+    private final int randomSizeLimit=10;
     public TradeRequestGenerator(TradeRequestQueue queue, Exchange exchange) {
         this.queue = queue;
         this.exchange = exchange;
@@ -26,7 +27,7 @@ public class TradeRequestGenerator implements Runnable {
             Sector sector = exchange.getRandomSector();
             Trader trader = exchange.getRandomTrader();
             double portfolio = trader.getPortfolioValue();
-            int count = random.nextInt(10) + 1;
+            int count = random.nextInt(randomSizeLimit) + 1;
             boolean isBuy = count % 2 == 0;
             TradeRequest tradeRequest=new TradeRequest(trader, sector, count, isBuy, bond, portfolio);
             queue.addTradeRequest(new TradeRequest(trader, sector, count, isBuy, bond, portfolio));

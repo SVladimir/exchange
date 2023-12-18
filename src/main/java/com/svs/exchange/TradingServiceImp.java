@@ -12,6 +12,7 @@ public class TradingServiceImp implements TradingService {
     private static final Logger logger = LoggerFactory.getLogger(TradingServiceImp.class);
     private static final String BUY = "buy";
     private static final String SELL = "sell";
+    private final int signMinus=-1;
 
     @Override
     public boolean creditCheck(TradeRequest tradeRequest) {
@@ -24,7 +25,7 @@ public class TradingServiceImp implements TradingService {
         String typeOperation = BUY;
         if (tradeRequest.isBuy()) {
             typeOperation = SELL;
-            cost = -1 * cost;
+            cost = signMinus * cost;
         }
         trader.getLock().lock();
         sector.getLock().lock();
